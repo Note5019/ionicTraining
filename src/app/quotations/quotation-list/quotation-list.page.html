@@ -1,11 +1,24 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Quotations</ion-title>
+    <ion-title>Quotations List</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<ion-button expand="full" color="success" [routerLink]="['/app/quotations/create']">Create Quotation
-  <ion-icon slot="start" name="add-circle"></ion-icon>
-</ion-button>
+  <ion-list>
+    <ion-item *ngFor="let item of quotationList">
+      <ion-label>
+        {{item.quotationNo}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <!-- <ion-button shape="round" expand="full" color="success" [routerLink]="['/app/quotations/create']">Create Quotation
+    <ion-icon slot="start" name="add-circle"></ion-icon>
+  </ion-button> -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" [routerLink]="['/app/quotations/create']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

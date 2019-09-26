@@ -33,7 +33,23 @@
 .mat-container {
     display: flex;
     flex-direction: column;
-    > * {
-        width:100%;
+
+    >* {
+        width: 100%;
     }
+}
+
+.form-card {
+    border: 3px solid var(--ion-color-medium);
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-top: 10px;
 }

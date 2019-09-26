@@ -25,7 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    // InMemoryWebApiModule.forRoot(MockBackendService),
+    InMemoryWebApiModule.forRoot(MockBackendService),
     IonicStorageModule.forRoot()
   ],
   providers: [

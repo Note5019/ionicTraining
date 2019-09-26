@@ -30,14 +30,14 @@
         Please enter Password
       </div>
     </div>
-    <div padding>
-      <ion-button type="submit" color="danger" class="submit-btn" expand="full" [disabled]="loginForm.errors">
+    <div class="ion-padding">
+      <ion-button type="submit" color="primary" class="submit-btn" expand="block" [disabled]="loginForm.errors">
         Login
       </ion-button>
     </div>
-    <div padding>
-      <ion-button type="button" color="primary" class="submit-btn" 
-        expand="full" [routerLink]="['/register']"
+    <div class="ion-padding">
+      <ion-button type="button" color="secondary" class="submit-btn" 
+        expand="block" [routerLink]="['/register']"
         routerLinkActive="router-link-active">Create Account</ion-button>
     </div>
 

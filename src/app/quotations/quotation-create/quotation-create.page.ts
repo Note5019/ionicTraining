@@ -1,5 +1,8 @@
-import { FormBuilder, FormGroup, Validators, ValidatorFn, FormArray, AbstractControl } from '@angular/forms';
+import { QuotationsService } from './../../services/quotations.service';
+import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from 'src/app/services/product.service';
+import { Product } from 'src/app/models/Product';
 
 @Component({
   selector: 'app-quotation-create',
@@ -7,48 +10,59 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./quotation-create.page.scss'],
 })
 export class QuotationCreatePage implements OnInit {
-
+  isSave: boolean = false;
   quotationForm: FormGroup;
-  products: [{productId: 1, productName: 'prod-1'}, {productId: 2, productName: 'prod-2'}];
+  productList: Product[] = [];
 
   // Property
   get quotationLines(): FormArray {
     return this.quotationForm.get('quotationItems') as FormArray;
   }
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private quotationService: QuotationsService,
+    private productService: ProductService
+  ) { }
 
   ngOnInit() {
+    this.getProductList();
     this.createForm();
   }
   createForm() {
     this.quotationForm = this.fb.group({
       quotationNo: ['', Validators.required],
       quotationDate: ['', Validators.required],
-      customer: ['0', Validators.required],
+      customer: ['', Validators.required],
       expireDate: ['', Validators.required],
-      paymentTerm: '0',
+      paymentTerm: '',
       referenceNo: '',
       pic: '',
-      subtotal: [0, Validators.required],
-      otherCharges: [0, Validators.required],
-      vat: [0, Validators.required],
-      grandTotal: [0, Validators.required],
-      quotationItems: this.fb.array([this.createQuotationItems()])
-
+      subtotal: [null, Validators.required],
+      otherCharges: [null, Validators.required],
+      vat: [7, Validators.required],
+      grandTotal: [null, Validators.required],
+      quotationItems: this.fb.array([])
     });
+    this.addItem();
+    // this.quotationLines.valueChanges.subscribe((res) => {
+    //   console.log("ress", res);
+    //   this.quotationForm.patchValue({
+    //     subtotal: this.calculateSubTotal(),
+    //     grandTotal: this.calculateGrandTotal()
+    //   });
+    // });
   }
   createQuotationItems(): FormGroup {
     return this.fb.group({
-      productId: [0, Validators.required],
+      productId: [null, Validators.required],
       productName: ['', Validators.required],
       qty: [0, Validators.required],
       unitPrice: [0, Validators.required],
       discount: [0, Validators.required],
-      lineTotal: [0, Validators.required]
+      lineTotal: [null, Validators.required]
     });
   }
-
   addItem() {
     this.quotationLines.push(this.createQuotationItems());
   }
@@ -56,15 +70,59 @@ export class QuotationCreatePage implements OnInit {
     this.quotationLines.removeAt(i);
   }
 
-  GetProductInfo(ctrl: HTMLInputElement, quotationLine) {
+  getProductInfo(index: number) {
+    let selectedProduct = this.productList.find(p => p.id == this.quotationLines.controls[index].get('productId').value);
+    this.quotationLines.controls[index].patchValue({
+      productName: selectedProduct.productName,
+      unitPrice: selectedProduct.unitPrice
+    });
+  }
 
+  getProductList() {
+    this.productService.getProducts().subscribe((res: Product[]) => {
+      this.productList = res;
+    });
   }
 
   calculateLineTotal(line: AbstractControl) {
-
+    let unitPrice = line.get('unitPrice').value;
+    let qty = line.get('qty').value;
+    let discount = line.get('discount').value;
+    line.patchValue({
+      lineTotal: (unitPrice * qty) - discount
+    });
+  }
+  calculateSubTotal() {
+    let sum = 0;
+    this.quotationLines.controls.forEach((q) => {
+      sum += Number(q.get('lineTotal').value);
+    });
+    console.log("sum",sum);
+    
+    this.quotationForm.patchValue({
+      subtotal: sum,
+      grandTotal: this.calculateGrandTotal()
+    });
+  }
+  calculateGrandTotal() {
+    let subTotal = this.quotationForm.get('subtotal').value;
+    let otherCharges = this.quotationForm.get('otherCharges').value;
+    let vat = this.quotationForm.get('vat').value;
+    return (subTotal + otherCharges) + ((subTotal + otherCharges) * vat / 100);
   }
 
   submit() {
+    this.isSave = true;
+    if (this.quotationForm.valid) {
+      let quotation = Object.assign({}, this.quotationForm.value);
+      console.log("q", quotation);
+      this.quotationService.addQuotaion(quotation).subscribe(res => {
+        console.log("res", res);
+      });
+    }
+    else {
+      console.log("invail form");
 
+    }
   }
 }

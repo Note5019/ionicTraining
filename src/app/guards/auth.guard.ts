@@ -19,44 +19,41 @@ export class AuthGuard implements CanActivate {
     private authService: AuthService,
     private router: Router,
     private alert: AlertController
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ):
-    | boolean
-    | UrlTree
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {
+    | boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    return true;
+    // if (route.url.toString().indexOf('/dashboard') > 0) {
+    //   const expectedRole = route.data.roles;
+    //   console.log(route.data.roles);
+    //   return this.authService.getCurrentUser().pipe(
+    //     map(user => {
+    //       if (!user) {
+    //         this.showAlert();
+    //         return this.router.parseUrl('/login');
+    //       } else {
+    //         const role = user.roles;
 
-    if (route.url.toString().indexOf('/dashboard') > 0) {
-      const expectedRole = route.data.roles;
-      console.log(route.data.roles);
-      return this.authService.getCurrentUser().pipe(
-        map(user => {
-          if (!user) {
-            this.showAlert();
-            return this.router.parseUrl('/login');
-          } else {
-            const role = user.roles;
-
-            if (expectedRole === role || expectedRole === undefined) {
-              return true;
-            } else {
-              this.showAlert();
-              return this.router.parseUrl('/login');
-            }
-          }
-        })
-      );
-    } else {
-      if (this.authService.isAuthenticated()) {
-        return true;
-      }
-    }
-    this.showAlert();
-    return this.router.parseUrl('/login');
+    //         if (expectedRole === role || expectedRole === undefined) {
+    //           return true;
+    //         } else {
+    //           this.showAlert();
+    //           return this.router.parseUrl('/login');
+    //         }
+    //       }
+    //     })
+    //   );
+    // } else {
+    //   if (this.authService.isAuthenticated()) {
+    //     return true;
+    //   }
+    // }
+    // this.showAlert();
+    // return this.router.parseUrl('/login');
   }
 
   async showAlert() {

@@ -5,12 +5,12 @@
       <ion-label>Dashboard</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="quotations/list" routerLink="quotations">
+    <ion-tab-button tab="quotations">
       <ion-icon name="document"></ion-icon>
       <ion-label>Quotations</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="invoices" routerLink="invoices">
+    <ion-tab-button tab="invoices" >
       <ion-icon name="book"></ion-icon>
       <ion-label>Invoices</ion-label>
     </ion-tab-button>
@@ -20,7 +20,7 @@
       <ion-label>Customers</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button (click)="logout()">
+    <ion-tab-button (click)="presentAlertConfirm()">
       <ion-icon name="exit"></ion-icon>
       <ion-label>Logout</ion-label>
     </ion-tab-button>

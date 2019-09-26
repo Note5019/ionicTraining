@@ -15,9 +15,10 @@ const routes: Routes = [
   },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'user-dashboard', loadChildren: './user-dashboard/user-dashboard.module#UserDashboardPageModule' },
-  { path: 'quotation-create', loadChildren: './quotations/quotation-create/quotation-create.module#QuotationCreatePageModule' },
-  { path: 'quotation-view', loadChildren: './quotations/quotation-view/quotation-view.module#QuotationViewPageModule' },
-  { path: 'quotation-list', loadChildren: './quotations/quotation-list/quotation-list.module#QuotationListPageModule' }
+  { path: 'quotation', loadChildren: './quotations/quotations.module#QuotationsPageModule' },
+  // { path: 'quotation-create', loadChildren: './quotations/quotation-create/quotation-create.module#QuotationCreatePageModule' },
+  // { path: 'quotation-view', loadChildren: './quotations/quotation-view/quotation-view.module#QuotationViewPageModule' },
+  // { path: 'quotation-list', loadChildren: './quotations/quotation-list/quotation-list.module#QuotationListPageModule' }
 ];
 
 @NgModule({

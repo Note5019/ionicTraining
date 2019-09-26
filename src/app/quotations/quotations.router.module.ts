@@ -28,6 +28,14 @@ const routes: Routes = [
           import('./quotation-list/quotation-list.module').then(
             m => m.QuotationListPageModule
           )
+      },
+      {
+        path: '**',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./quotation-list/quotation-list.module').then(
+            m => m.QuotationListPageModule
+          )
       }
     ]
   }

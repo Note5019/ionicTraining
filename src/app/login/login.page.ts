@@ -26,18 +26,19 @@ export class LoginPage implements OnInit {
 
   login(loginForm: FormGroup) {
     const user = { ...loginForm.value }; // Object.assign({}, this.user, loginForm.value);
-    this.authService.login(user.username, user.password).subscribe(data => {
-      if (data) {
-        this.currentUser = data;
-        console.log(this.currentUser);
-        const role = this.currentUser.roles;
+    this.router.navigateByUrl('/app/dashboard');
+    // this.authService.login(user.username, user.password).subscribe(data => {
+    //   if (data) {
+    //     this.currentUser = data;
+    //     console.log(this.currentUser);
+    //     const role = this.currentUser.roles;
 
-        if (role === 'ADMIN') {
-          this.router.navigateByUrl('/app/dashboard');
-        } else if (role === 'USER') {
-          this.router.navigateByUrl('/app/user/dashboard');
-        }
-      }
-    });
+    //     if (role === 'ADMIN') {
+    //       this.router.navigateByUrl('/app/dashboard');
+    //     } else if (role === 'USER') {
+    //       this.router.navigateByUrl('/app/user/dashboard');
+    //     }
+    //   }
+    // });
   }
 }
